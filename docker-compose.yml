@@ -1,0 +1,22 @@
+version: "3.7"
+services:
+  api:
+    build:
+      context: .
+      dockerfile: docker/api.dockerfile
+    expose:
+      - "8000"
+    network_mode: "host"
+  mqtt:
+    image: eclipse-mosquitto
+    network_mode: "host"
+  message_queue:
+    build:
+      context: .
+      dockerfile: docker/mqtt.dockerfile
+    network_mode: "host"
+  mock_sender:
+    build:
+      context: .
+      dockerfile: docker/mock_sender.dockerfile
+    network_mode: "host"

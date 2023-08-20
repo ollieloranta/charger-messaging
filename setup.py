@@ -3,7 +3,7 @@ from setuptools import find_packages, setup
 
 setup(
     version="0.0.1",
-    python_requires='>3.10.0',
+    python_requires='>3.8.0',
     name="Charger Messaging",
     author="Olli Eloranta",
     description="Simple messaging app",
