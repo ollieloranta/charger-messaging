@@ -1,8 +1,7 @@
 import motor.motor_asyncio
+from charger_messaging.config import DATABASE_URL
 
-MONGO_DETAILS = "mongodb://localhost:27017"
 
-
-client = motor.motor_asyncio.AsyncIOMotorClient(MONGO_DETAILS)
-database = client.students
+client = motor.motor_asyncio.AsyncIOMotorClient(DATABASE_URL)
+database = client.sessions
 session_collection = database.get_collection("session_collection")
