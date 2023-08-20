@@ -1,4 +1,6 @@
 import json
+import requests
+
 import paho.mqtt.client as mqtt
 
 
@@ -8,9 +10,11 @@ def on_connect(client, userdata, flags, rc):
 
 
 def on_message(client, userdata, msg):
-    message = json.loads(msg.payload.decode('utf-8'))
-    data = {"topic": msg.topic, "message": message}
-    print(data)
+    message = msg.payload.decode('utf-8')
+    try:
+        requests.post("http://localhost:8000/session/", json=message)
+    except Exception as err:
+        print("Error: ", err)
 
 
 def main():

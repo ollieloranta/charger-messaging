@@ -5,8 +5,8 @@ from .database import session_collection
 from .models import ManySessions
 import json
 
-
 app = FastAPI()
+
 
 @app.post("/session/")
 async def add_session(data: str = Body(...)):
@@ -14,6 +14,7 @@ async def add_session(data: str = Body(...)):
     session = json.loads(data)
     session_collection.insert_one(session)
     return {"Status": "ok"}
+
 
 @app.get("/session/", response_model=ManySessions)
 async def get_all_sessions():
