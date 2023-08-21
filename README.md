@@ -4,10 +4,13 @@ Simple application for handling messages from a queue and storing them to a data
 
 # Installation and run with Docker
 
-Optionally, create a conda environment, then install docker-compose.
+First, install [Docker](https://docs.docker.com/engine/install/) if not yet done.
+
+
+Install docker-compose
 
 ```bash
-pip install docker-compose
+sudo apt-get install docker-compose
 ```
 
 Then, run the Docker environment:
@@ -18,12 +21,26 @@ docker-compose up
 docker-compose up -d
 ```
 
+Close program with ctrl+C, or if detached mode, use
+
+```bash
+docker-compose down
+```
+
+### Reading service outputs
+
+```bash
+docker logs charger-messaging_api_1
+# Or
+docker logs charger-messaging_message_queue_1
+```
+
 # Installation without Docker
 
 ### Requirements
 
 * An MQTT Broker running in the background (Such as [Mosquitto](http://www.steves-internet-guide.com/install-mosquitto-linux/))
-* MongoDB ([Installation guide](https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-ubuntu/#install-mongodb-community-edition))
+* MongoDB running in the background ([Installation guide](https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-ubuntu/#install-mongodb-community-edition))
 * Conda (E.g. [Miniconda](https://docs.conda.io/en/latest/miniconda.html))
 
 ### Installing
@@ -52,3 +69,16 @@ python charger_messaging/message_queue.py
 ```bash
 python charger_messaging/mock_sender.py
 ```
+
+# Improvements
+
+This remains a simple program with multiple possible improvements:
+
+* Currently there is not a generalized topic management for MQTT. This should be added, 
+so many different devices and sessions can easily connect. Possibly session topics would 
+not need to even exist, and this would be handled only in the backend.
+* The database remains quite simple, and more generalizations should be done if we 
+know that many more different objects are to be added to the database.
+* The Dockerfiles and docker-compose files could be optimized by looking more deeply 
+for the best images to use for each service.
+* Normally the .env environment file shouldn't be in Git, but this is just a simple and only locally working version.
