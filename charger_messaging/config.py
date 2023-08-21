@@ -1,5 +1,6 @@
-from dotenv import load_dotenv
+"""Config file to get variables from an external .env file to the Python program."""
 import os
+from dotenv import load_dotenv
 
 
 load_dotenv(".env.local")

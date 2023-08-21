@@ -1,22 +1,35 @@
 version: "3.7"
 services:
+  mqtt:
+    restart: unless-stopped
+    image: eclipse-mosquitto
+    network_mode: "host"
+  mongodb:
+    image: mongo:latest
+    network_mode: host
   api:
+    restart: unless-stopped
     build:
       context: .
       dockerfile: docker/api.dockerfile
     expose:
       - "8000"
     network_mode: "host"
-  mqtt:
-    image: eclipse-mosquitto
-    network_mode: "host"
+    environment:
+      PYTHONUNBUFFERED: 1
   message_queue:
+    restart: unless-stopped
     build:
       context: .
       dockerfile: docker/mqtt.dockerfile
     network_mode: "host"
+    environment:
+      PYTHONUNBUFFERED: 1
   mock_sender:
+    restart: on-failure  # Stops running after a while, so only restart on failures
     build:
       context: .
       dockerfile: docker/mock_sender.dockerfile
     network_mode: "host"
+    environment:
+      PYTHONUNBUFFERED: 1

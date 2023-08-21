@@ -1,5 +1,5 @@
 from typing import List
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class Session(BaseModel):
@@ -7,7 +7,3 @@ class Session(BaseModel):
     energy_kwh: int
     duration_s: int
     cost_cents: int
-
-
-class ManySessions(BaseModel):
-    sessions: List[Session]

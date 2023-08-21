@@ -1,4 +1,4 @@
-FROM python:3.9
+FROM python:3.9-slim
 
 WORKDIR /code
 
@@ -10,4 +10,4 @@ RUN pip install -r requirements.txt
 
 ENV PYTHONPATH "${PYTHONPATH}:/code"
 
-CMD python charger_messaging/api.py
+CMD python -u charger_messaging/api.py
