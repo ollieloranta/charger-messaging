@@ -16,7 +16,7 @@ app = FastAPI()
 
 
 @app.post("/session/")
-async def add_session(data: str = Body(...)):
+async def add_session(session: Session):
     """Add session to the database
 
     :param data: Session data to be added
@@ -24,8 +24,7 @@ async def add_session(data: str = Body(...)):
     :return: string to simply inform data is added.
     """
     try:
-        session = json.loads(data)
-        session_collection.insert_one(session)
+        session_collection.insert_one(dict(session))
     except json.decoder.JSONDecodeError as err:
         logger.error(err)
         raise HTTPException(status_code=400, detail="Invalid request data")

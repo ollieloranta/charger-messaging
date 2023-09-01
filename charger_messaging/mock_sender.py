@@ -21,7 +21,7 @@ def main():
             # Mock program has run long enough
             return
         # Dummy value to be sent
-        payload = {"session_id": message_number, "delivered_kWh": 30, "duration_s": 45, "cost_cents": 70}
+        payload = {"session_id": message_number, "energy_kwh": 30, "duration_s": 45, "cost_cents": 70}
         publish.single(TOPIC, json.dumps(payload), hostname=MQTT_URL, port=int(MQTT_PORT))
         time.sleep(SLEEP_TIME)
         message_number += 1

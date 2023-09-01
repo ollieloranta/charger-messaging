@@ -3,7 +3,9 @@ import os
 from dotenv import load_dotenv
 
 
-load_dotenv(".env.local")
+if not os.getenv("DATABASE_URL"):
+    # Required variable not found so we are in local development
+    load_dotenv(".env.local")
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 

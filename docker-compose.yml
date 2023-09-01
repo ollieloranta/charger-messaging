@@ -1,35 +1,72 @@
 version: "3.7"
 services:
   mqtt:
-    restart: unless-stopped
     image: eclipse-mosquitto
-    network_mode: "host"
+    restart: unless-stopped
+    networks:
+      - common_network
+    volumes:
+      - ./mosquitto_config:/mosquitto/config/mosquitto.conf
+
   mongodb:
     image: mongo:latest
-    network_mode: host
+    networks:
+      - common_network
+    ports:
+      - "27017:27017"
+    volumes:
+      - './db_data:/data/db'
+
   api:
     restart: unless-stopped
+    depends_on:
+      - mongodb
     build:
       context: .
       dockerfile: docker/api.dockerfile
+    environment:
+      - API_URL=0.0.0.0
+      - API_PORT=8000
+      - DATABASE_URL=mongodb:27017
+    user: 1000:1000
+    ports:
+      - "8000:8000"
     expose:
       - "8000"
-    network_mode: "host"
-    environment:
-      PYTHONUNBUFFERED: 1
+    networks:
+      - common_network
+
   message_queue:
     restart: unless-stopped
+    depends_on:
+      - mqtt
+      - api
     build:
       context: .
       dockerfile: docker/mqtt.dockerfile
-    network_mode: "host"
     environment:
-      PYTHONUNBUFFERED: 1
+      - API_URL=api
+      - API_PORT=8000
+      - MQTT_URL=mqtt
+      - MQTT_PORT=1883
+    user: 1000:1000
+    networks:
+      - common_network
+
   mock_sender:
     restart: on-failure  # Stops running after a while, so only restart on failures
+    depends_on:
+      - mqtt
     build:
       context: .
       dockerfile: docker/mock_sender.dockerfile
-    network_mode: "host"
     environment:
-      PYTHONUNBUFFERED: 1
+      - MQTT_URL=mqtt
+      - MQTT_PORT=1883
+    user: 1000:1000
+    networks:
+      - common_network
+
+networks:
+  common_network:
+    name: common_network

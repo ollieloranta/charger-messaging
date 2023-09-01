@@ -23,7 +23,7 @@ def on_message(client, userdata, msg):
     message = msg.payload.decode('utf-8')
     logger.info(f"Received message: {message}")
     try:
-        requests.post(f"{API_ADDRESS}/session/", json=message)
+        requests.post(f"{API_ADDRESS}/session/", data=message)
         logger.info(f"Message sent to API.")
     except requests.exceptions.ConnectionError:
         logger.error(f"No connection to API.")

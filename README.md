@@ -13,6 +13,12 @@ Install docker-compose
 sudo apt-get install docker-compose
 ```
 
+Build the containers:
+
+```bash
+docker-compose build
+```
+
 Then, run the Docker environment:
 
 ```bash
@@ -35,7 +41,28 @@ docker logs charger-messaging_api_1
 docker logs charger-messaging_message_queue_1
 ```
 
-# Installation without Docker
+# Usage
+
+### Functionality
+
+Currently the only functionality of the site is to read the values of the charger messages.
+
+To see a raw list of all the message values, connect with your browser to the address
+
+```
+http://localhost:8000/session/
+```
+
+### API Docs
+
+You can see the entire API Swagger documentation in the address
+
+```
+http://localhost:8000/docs
+```
+
+
+# (Optional) Installation without Docker
 
 ### Requirements
 
@@ -51,7 +78,7 @@ conda activate chargerapp
 pip install .
 ```
 
-# Usage
+### Local installation Usage
 
 In separate terminals, run the three services:
 
@@ -70,6 +97,8 @@ python charger_messaging/message_queue.py
 python charger_messaging/mock_sender.py
 ```
 
+After everything is running, you can connect to the site with your browser as shown in the section [Usage](#usage).
+
 # Improvements
 
 This remains a simple program with multiple possible improvements:
@@ -82,3 +111,4 @@ know that many more different objects are to be added to the database.
 * The Dockerfiles and docker-compose files could be optimized by looking more deeply 
 for the best images to use for each service.
 * Normally the .env environment file shouldn't be in Git, but this is just a simple and only locally working version.
+* Provide a frontend for the website
