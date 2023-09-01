@@ -22,15 +22,15 @@ docker-compose build
 Then, run the Docker environment:
 
 ```bash
-docker-compose up
+docker-compose --env-file .env.localdocker up
 # Or for detached mode:
-docker-compose up -d
+docker-compose --env-file .env.localdocker up -d
 ```
 
 Close program with ctrl+C, or if detached mode, use
 
 ```bash
-docker-compose down
+docker-compose --env-file .env.localdocker down
 ```
 
 ### Reading service outputs

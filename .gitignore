@@ -2,4 +2,6 @@ __pycache__
 *.egg-info
 build
 
+# Prevent prod environment to get to git
+.env
 .env.prod
